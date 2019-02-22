@@ -1,0 +1,37 @@
+---
+nodejs:
+  version: "10.15.1"
+  base: "/opt"
+  dir: "/opt/node-v10.15.1-linux-x64"
+  home: "/opt/node"
+  url: "https://nodejs.org/download/release/v10.15.1/node-v10.15.1-linux-x64.tar.gz"
+  owner: root
+  group: root
+
+mongo:
+  port: 27017
+  username: root
+  role: root
+  database: admin
+
+checkbox:
+  port: 3002
+  location: /home/vagrant/checkbox/
+
+os_environment:
+  - key: MAIL_SMTP 
+    value : smtp.zoho.com
+  - key: MAIL_USER
+    value: csc519S19_asaxena5@zoho.com
+  - key: APP_PORT
+    value: '{{ checkbox.port }}'
+  - key: MONGO_IP
+    value: 127.0.0.1
+  - key: MONGO_USER
+    value: root
+      
+checkbox_deploy_path: deploy/production.git
+git_repository_path: '{{ checkbox.location }}deploy/production.git'
+checkbox_job_name: checkbox
+jenkins_seed_template: 'pipelineJob'
+
