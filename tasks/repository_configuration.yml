@@ -2,7 +2,7 @@
   - name: Copy private_key file to server
     template:
       src: /home/vagrant/Playbook/templates/key
-      dest: /home/vagrant/.ssh/id_rsa_github2
+      dest: /home/ubuntu/.ssh/id_rsa_github2
       owner: root
       group: root
       mode: 0600

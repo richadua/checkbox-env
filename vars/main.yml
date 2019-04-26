@@ -16,7 +16,7 @@ mongo:
 
 checkbox:
   port: 3002
-  location: /home/vagrant/checkbox/
+  location: /home/ubuntu/checkbox/
 
 jenkins_user: jenkins
 jenkins_password: 'admin'
