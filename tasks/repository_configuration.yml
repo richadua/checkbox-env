@@ -1,8 +1,8 @@
 ---
   - name: Copy private_key file to server
-    template: 
-      src: roles/checkbox_env/templates/key 
-      dest: /home/vagrant/.ssh/id_rsa_github2 
+    template:
+      src: /home/vagrant/Playbook/templates/key
+      dest: /home/vagrant/.ssh/id_rsa_github2
       owner: root
       group: root
       mode: 0600
@@ -12,50 +12,50 @@
     stat:
       path: '{{ checkbox.location }}'
     register: checkbox_available
-     
+
   - name: Clone checkbox private repository
     git:
       repo: git@github.ncsu.edu:asaxena5/checkbox.io-private.git
       dest: '{{ checkbox.location }}'
       accept_hostkey: yes
-      key_file: /home/vagrant/.ssh/id_rsa_github2 
+      key_file: /home/vagrant/.ssh/id_rsa_github2
     when: checkbox_available.stat.exists == false
     become: true
-    
+
   - name: Configure git post-receive push options for jenkins user
     command: chdir='{{ checkbox.location }}' git config --local push.pushOption {{jenkins_user}}
     become: true
     when: checkbox_available.stat.exists == false
-  
+
   - name: Configure git post-receive push options for jenkins password
     command: chdir='{{ checkbox.location }}' git config --local push.pushOption {{jenkins_password}} {{jenkins_password}}
     become: true
     when: checkbox_available.stat.exists == false
 
   - name: Install packages based on package.json
-    npm: 
+    npm:
       path: '{{ checkbox.location }}server-side/site'
     become: yes
-  
+
   - name: Creates a directory named deploy
     become: yes
     file:
       path: '{{ checkbox.location }}deploy'
       state: directory
-  
+
   - name: Creates production-www directory
     become: yes
     file:
       path: '{{ checkbox.location }}deploy/production-www'
       state: directory
-  
+
   - name: Creates production.git directory
     become: yes
     file:
       path: '{{ git_repository_path }}'
       state: directory
       mode: ug+rw
-  
+
   - name: git init
     command: git init --bare
     args:
@@ -77,8 +77,7 @@
       scope: local
       repo: '{{ git_repository_path }}'
     become: true
-  
+
   - name: Copy post-receive script
-    template: src=roles/checkbox_env/templates/hooks/postreceive.j2 dest={{ git_repository_path }}/hooks/post-receive mode=0755
+    template: src=/home/vagrant/Playbook/templates/hooks/postreceive.j2 dest={{ git_repository_path }}/hooks/post-receive mode=0755
     become: yes
-    
