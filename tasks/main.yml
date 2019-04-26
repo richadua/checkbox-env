@@ -2,17 +2,8 @@
 - hosts: awsserver
   gather_facts: no
   become: true
-  vars:
-    jenkins_user: jenkins
-    jenkins_password: 'admin'
-    mongo_secrets:
-      user_password: akshay
-    os_environment_secrets:
-      - key: MAIL_PASSWORD 
-        value : csc519S19_asaxena5
-      - key: MONGO_PASSWORD
-        value: "{{ mongo_secrets.user_password }}"
   tasks:
+    - include_vars: ../vars/main.yml
     - import_tasks: node_install.yml
     - import_tasks: mongo_install.yml
     - import_tasks: nginx_install.yml
