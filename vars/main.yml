@@ -24,6 +24,12 @@ jenkins_password: 'admin'
 mongo_secrets:
   user_password: akshay
 
+os_environment_secrets:
+  - key: MAIL_PASSWORD
+    value : csc519S19_asaxena5
+  - key: MONGO_PASSWORD
+    value: "{{ mongo_secrets.user_password }}"
+
 os_environment:
   - key: MAIL_SMTP
     value : smtp.zoho.com
@@ -35,10 +41,6 @@ os_environment:
     value: 127.0.0.1
   - key: MONGO_USER
     value: root
-  - key: MAIL_PASSWORD
-    value : csc519S19_asaxena5
-  - key: MONGO_PASSWORD
-    value: "{{ mongo_secrets.user_password }}"
 
 checkbox_deploy_path: deploy/production.git
 git_repository_path: '{{ checkbox.location }}deploy/production.git'
