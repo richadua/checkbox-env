@@ -7,3 +7,15 @@
       line: '{{ item.key }}="{{ item.value}}"'
     with_items: ["{{ os_environment }}", "{{ os_environment_secrets }}"]
     become: yes
+
+  - name: Set microservice hostname to AWS
+    shell: echo $MICROSERVICE_IP
+    register: micro_ip
+  
+  - name: Append microservice IP in /etc/environment
+    lineinfile:
+      dest: "/etc/environment"
+      state: present
+      regexp: "^MICROSERVICE_IP"
+      line: 'MICROSERVICE_IP="{{ micro_ip }}"'
+    become: yes
