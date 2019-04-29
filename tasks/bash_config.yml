@@ -12,10 +12,14 @@
     shell: echo $MICROSERVICE_IP
     register: micro_ip
   
+  - debug:
+      var: find_output.stdout
+
   - name: Append microservice IP in /etc/environment
     lineinfile:
       dest: "/etc/environment"
       state: present
       regexp: "^MICROSERVICE_IP"
-      line: 'MICROSERVICE_IP="{{ micro_ip }}"'
+      line: 'MICROSERVICE_IP="{{ item }}"'
+    with_items: micro_ip.stdout
     become: yes
