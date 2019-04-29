@@ -20,6 +20,6 @@
       dest: "/etc/environment"
       state: present
       regexp: "^MICROSERVICE_IP"
-      line: 'MICROSERVICE_IP="{{ item.value }}"'
+      line: 'MICROSERVICE_IP="{{ item }}"'
     with_items: micro_ip.stdout
     become: yes
